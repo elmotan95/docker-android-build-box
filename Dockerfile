@@ -159,12 +159,12 @@ RUN echo "kotlin" && \
     bash -c "bash ./sdk.install.sh > /dev/null && source ~/.sdkman/bin/sdkman-init.sh && sdk install kotlin" && \
     rm -f sdk.install.sh
 
-RUN echo "Flutter sdk" && \
-    cd /opt && \
-    wget --quiet https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_1.22.0-stable.tar.xz -O flutter.tar.xz && \
-    tar xf flutter.tar.xz && \
-    flutter config --no-analytics && \
-    rm -f flutter.tar.xz
+# RUN echo "Flutter sdk" && \
+#     cd /opt && \
+#     wget --quiet https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_1.22.0-stable.tar.xz -O flutter.tar.xz && \
+#     tar xf flutter.tar.xz && \
+#     flutter config --no-analytics && \
+#     rm -f flutter.tar.xz
 
 # Copy sdk license agreement files.
 RUN mkdir -p $ANDROID_HOME/licenses
@@ -178,6 +178,15 @@ RUN mkdir -p /var/lib/jenkins/workspace && \
     chmod 777 $ANDROID_HOME/.android
 
 # Install fastlane with bundler and Gemfile
+
+ENV GEM_HOME /usr/local/bundle
+ENV BUNDLE_PATH="$GEM_HOME" \
+  BUNDLE_BIN="$GEM_HOME/bin" \
+  BUNDLE_SILENCE_ROOT_WARNING=1 \
+  BUNDLE_APP_CONFIG="$GEM_HOME"
+RUN mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
+  && chmod 777 "$GEM_HOME" "$BUNDLE_BIN"
+  
 
 ENV FASTLANE_VERSION 2.176.0
 
