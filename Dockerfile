@@ -178,9 +178,6 @@ RUN mkdir -p /var/lib/jenkins/workspace && \
     chmod 777 $ANDROID_HOME/.android
 
 # Install fastlane with bundler and Gemfile
-ENV BUNDLE_GEMFILE=/tmp/Gemfile
-
-COPY Gemfile /tmp/Gemfile
 
 RUN echo "fastlane" && \
     gem install bundler --quiet --no-document > /dev/null && \
