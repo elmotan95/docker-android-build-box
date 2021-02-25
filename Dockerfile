@@ -179,11 +179,11 @@ RUN mkdir -p /var/lib/jenkins/workspace && \
 
 # Install fastlane with bundler and Gemfile
 
-RUN echo "fastlane" && \
-    gem install bundler --quiet --no-document > /dev/null && \
-    mkdir -p /.fastlane && \
-    chmod 777 /.fastlane && \
-    bundle install --quiet
+ENV FASTLANE_VERSION 2.176.0
+
+RUN gem install fastlane -v ${FASTLANE_VERSION} \
+  && gem install fastlane-plugin-appicon fastlane-plugin-android_change_string_app_name fastlane-plugin-humanable_build_number \
+  && gem update --system
 
 COPY README.md /README.md
 
